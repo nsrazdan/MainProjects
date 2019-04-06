@@ -178,9 +178,6 @@ bool BST<T>::recur_kth_small(int& k, const int& kth,
   return (recur_kth_small(k, kth, kth_small, n->right.get()));
 }
 
-/*
- * @@@ Code below should not be modified @@@
- */
 template <typename T>
 bool BST<T>::contains(const T &key) {
   Node *n = root.get();
