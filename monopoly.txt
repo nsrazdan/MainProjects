@@ -1,0 +1,5 @@
+I made a fully functional CLI version of monopoly that used unique file inputs to determine the board and the rules
+It is able to support as many players as you could want
+The project was 3000 or so lines of code at its completion, with a number of ideas for further implemenatation and with the code well organized
+Sadly, the project was lost
+However, it gave me plentiful experience in OOP, functional programming, and projects of scale
