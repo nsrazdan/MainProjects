@@ -1,3 +1,5 @@
+// written by nsrazdan
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
