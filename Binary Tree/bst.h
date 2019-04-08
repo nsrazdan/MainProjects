@@ -58,29 +58,31 @@ class BST {
  * Implementation
  */
 
-// Find floor of tree given key iteratively
+/* Find floor of tree given key iteratively */
 template <typename T>
 const T& BST<T>::floor(const T &key) {
-  // Init ret val and vars for loop
+  /* Init ret val and vars for loop */
   T* floor;
   bool floor_found = false;
   Node *n = root.get();
 
-  // If tree is empty, throw error
+  /* If tree is empty, throw error */
   if (!n) {
     throw std::runtime_error("Empty tree");
   }
-
-  // Run loop while a leaf node has not been reached. In loop, check if the key
-  // of current node is less than or equal to the given key. If it is, that
-  // means that it could potentially be a floor. Thus, check to see if it is
-  // smaller than current value stored for floor. If we find that the current
-  // Node's key is less than or equal to the given key, we continue to the next
-  // iteration of the loop using the right subtree. Else, we continue using the
-  // left subtree. We have this distinction because we know that the left
-  // subtree's root has a key that is always less than the current Node's.
-  // Hence we only proceed left if we are looking for a lesser key. Otherwise,
-  // go right.
+  
+  /*
+   * Run loop while a leaf node has not been reached. In loop, check if the key
+   * of current node is less than or equal to the given key. If it is, that
+   * means that it could potentially be a floor. Thus, check to see if it is
+   * smaller than current value stored for floor. If we find that the current
+   * Node's key is less than or equal to the given key, we continue to the next
+   * iteration of the loop using the right subtree. Else, we continue using the
+   * left subtree. We have this distinction because we know that the left
+   * subtree's root has a key that is always less than the current Node's.
+   * Hence we only proceed left if we are looking for a lesser key. Otherwise,
+   * go right.
+   */
   while (n) {
     if (n->key <= key) {
       if (!floor_found) {
@@ -95,22 +97,24 @@ const T& BST<T>::floor(const T &key) {
     }
   }
 
-  // If no floor was found for the given key, throw error
+  /* If no floor was found for the given key, throw error */
   if (!floor_found) {
     std::string err = "Cannot find floor for key " + std::to_string(key);
     throw std::runtime_error(err);
   }
 
-  // Return floor found
+  /* Return floor found */
   return *floor;
 }
 
-// Find ceiling of tree given key iteratively
+/* Find ceiling of tree given key iteratively */
 template <typename T>
 const T& BST<T>::ceil(const T &key) {
-  // Very similar implementation to floor method given above. Major difference
-  // is the subtree that is traversed. For in depth explanation, see floor
-  // method. Commenting here will only note differences between floor.
+  /*
+   * Very similar implementation to floor method given above. Major difference
+   * is the subtree that is traversed. For in depth explanation, see floor
+   * method. Commenting here will only note differences between floor.
+   */
   T* ceil;
   bool ceil_found = false;
   Node *n = root.get();
@@ -118,10 +122,11 @@ const T& BST<T>::ceil(const T &key) {
   if (!n) {
     throw std::runtime_error("Empty tree");
   }
-
-  // For each node until leaf Node found, check if the Node's key is greater
-  // than or equal to given key. If it is, and is less than ceil, update ceil.
-  // Then, continue with left subtree. Else, continue with right subtree.
+  /*
+   * For each node until leaf Node found, check if the Node's key is greater
+   * than or equal to given key. If it is, and is less than ceil, update ceil.
+   * Then, continue with left subtree. Else, continue with right subtree.
+   */
   while (n) {
     if (n->key >= key) {
       if (!ceil_found) {
@@ -142,39 +147,47 @@ const T& BST<T>::ceil(const T &key) {
   return *ceil;
 }
 
-// User/helper method to find kth smallest value in tree
+/* User/helper method to find kth smallest value in tree */
 template <typename T>
 const T& BST<T>::kth_small(const int kth) {
-  // Init vars for recursion
+  /* Init vars for recursion */
   int k = 0;
   Node* kth_small = root.get();
-  // Run recursion
+  /* Run recursion */
   recur_kth_small(k, kth, &kth_small, root.get());
 
-  // Return value found from recursion
+  /* Return value found from recursion */
   return kth_small->key;
 }
 
-// Recursively find kth smallest value in tree. Each call returns a bool.
-// Returns false if this call or a call that returned into this call has reached
-// k elements. Otherwise, return true. This makes sure that the recursion ends
-// once k elements have been checked. Other than that check, simple LNR
-// (in order) traversal.
+/*
+ * Recursively find kth smallest value in tree. Each call returns a bool.
+ * Returns false if this call or a call that returned into this call has reached
+ * k elements. Otherwise, return true. This makes sure that the recursion ends
+ * once k elements have been checked. Other than that check, simple LNR
+ * (in order) traversal.
+ */
 template <typename T>
 bool BST<T>::recur_kth_small(int& k, const int& kth,
   Node** kth_small, Node* n) {
-  // If this Node is a NIL Node, return true and continue recursion
+  /* If this Node is a NIL Node, return true and continue recursion */
   if (!n) return true;
-  // Recur the left subtree. If the left subtree returns false, also return
-  // false and end recursion.
+ 
+  /*
+   * Recur the left subtree. If the left subtree returns false, also return
+   * false and end recursion.
+   */
   if (!recur_kth_small(k, kth, kth_small, n->left.get())) return false;
-  // If k has reached kth, return false and end recursion
+  /* If k has reached kth, return false and end recursion */
   if (k >= kth) return false;
-  // If k has not reached kth, process Node. Meaning, update kth_smallest and
-  // inc k.
+  
+  /* 
+   * If k has not reached kth, process Node. Meaning, update kth_smallest and
+   * inc k.
+   */
   *kth_small = n;
   k++;
-  // Recur right subtree and return its return value
+  /* Recur right subtree and return its return value */
   return (recur_kth_small(k, kth, kth_small, n->right.get()));
 }
 
